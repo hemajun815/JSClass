@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test</title>
+	<meta charset="utf-8">
+</head>
+<body>
+	<script type="text/javascript" src="jquery-1.12.0.min.js"></script>
+	<script type="text/javascript" src="hmjCommon.js"></script>
+	<script type="text/javascript">
+		(function(){
+			$.loadFile.CSS('test.css');
+			$('body').appendAt(0, $.jqElem.InputButton().val('测试函数：$.check.isNull').click(function(){
+				var obj = $('body').children('a');
+				if($.check.isNull(obj)) alert('测试的obj为NULL');
+				else alert('测试的obj不为NULL');
+			}));
+			$('body').appendAt(1, $.jqElem.InputButton().val('测试函数：$.check.isMoble').click(function(){
+				if($.check.isMoble('18349130173')) alert('测试结果：是手机号码');
+				else alert('测试结果：不是手机号');
+			}));
+			$.jqElem.InputButton().val('测试函数：$.toUnicode').bind('click', function() {
+				alert('“一段测试文字”：' + $.toUnicode('一段测试文字'));
+			}).appendToAt(2, 'body');
+			$.jqElem.InputButton().val('测试函数：$.unUnicode').bind('click', function() {
+				alert($.toUnicode('一段测试文字') + '：' + $.unUnicode($.toUnicode('一段测试文字')));
+			}).appendToAt(3, 'body');
+			$.jqElem.InputButton().val('测试函数：$.getRandom').bind('click', function() {
+				alert('生成的随机数是：' + $.getRandom(10000000000000));
+			}).appendToAt(4, 'body');
+			$.jqElem.InputButton().val('测试函数：Date.format').bind('click', function() {
+				alert('当前时间：' + new Date().format('yyyy年 第q季度 MM月dd日 EEE HH时mm分ss秒S毫秒'));
+			}).appendToAt(5, 'body');
+		})();
+	</script>
+</body>
+</html>
