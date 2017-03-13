@@ -1,0 +1,2 @@
+# JSClass
+Javascript Class
