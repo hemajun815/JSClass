@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>html0</title>
+	<style type="text/css">
+		#divBg
+		{
+			width: 300px;
+			height: 200px;
+			margin: 100px auto;
+			background: #ccc;
+			border: 1px solid #000;
+			text-align: center;
+			cursor: default;
+		}
+	</style>
+	<link rel="stylesheet" type="text/css" href="menu.css">
+</head>
+<body>
+	<div id="divBg">请在此区域内点击</div>
+	<script type="text/javascript">
+		var ClkMenu = function(){
+			//定义私有变量
+			var oMenu = null;
+			var aItem = null;
+			//定义内部类
+			var inCs = {
+				MenuItem: function(cssCs, txt, clkFn){
+					this.item = document.createElement('div');
+					this.item.className = cssCs;
+					this.item.innerHTML = txt;
+					this.item.onclick = function(){
+						fn.remove();
+						if(clkFn) clkFn();
+					}
+				}
+			}
+			//定义私有函数
+			var fn = {
+				init: function(){
+					oMenu = document.createElement('div');
+					oMenu.className = 'menu';
+					aItem = [];
+				},
+				show: function(posX, posY){
+					for (var i = 0; i < aItem.length; i++) {
+						oMenu.appendChild(aItem[i]);
+					}
+					oMenu.style.left = posX + 'px';
+					oMenu.style.top = posY + 'px';
+					oMenu.style.display = 'block';
+					document.body.insertBefore(oMenu, document.body.firstChild);
+				},
+				remove: function(){
+					if(oMenu) oMenu.parentNode.removeChild(oMenu);
+				}
+			}
+			//定义外部方法
+			this.bindTo = function(elemId){
+				document.getElementById(elemId).onclick = function(e){
+					var e = event || window.event;
+					fn.show(e.clientX, e.clientY);
+				}
+			}
+			this.appendItem = function(txt, clkFn){
+				var oItem = new inCs.MenuItem('menu_item', txt, clkFn);
+				aItem.push(oItem.item);
+			}
+			//初始化
+			fn.init();
+		}
+
+		window.onload = function(){
+			var clkMenu = new ClkMenu();
+			clkMenu.appendItem('选项一', function(){alert('点击了选项一');});
+			clkMenu.appendItem('选项二', function(){alert('点击了选项二');});
+			clkMenu.bindTo('divBg');
+		}
+	</script>
+</body>
+</html>

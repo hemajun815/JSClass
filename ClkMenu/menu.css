@@ -1,0 +1,19 @@
+.menu
+{
+	display: none;
+	position: absolute;
+	border: 1px solid #ccc;
+	background: #fff;
+	box-shadow: 2px 2px 3px #aaaaaa;
+	min-width: 120px;
+}
+.menu_item
+{
+	padding: 5px 8px;
+	cursor: pointer;
+}
+.menu_item:hover
+{
+	background: #148be4;
+	color: #fff;
+}
