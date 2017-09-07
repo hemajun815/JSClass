@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>html3</title>
+    <link rel="stylesheet" type="text/css" href="tab.css">
+</head>
+<body>
+    <div id="tab"></div>
+    <script type="text/javascript">
+        var Tab = function(elemId){
+            //定义私有变量
+            var oTab = null;
+            var aHead = null;
+            var aBody = null;
+            //定义内部类
+            var inCs = {
+                TabHead: function(cssCs, txt, idx){
+                    this.oHead = document.createElement('input');
+                    this.oHead.setAttribute('type', 'button');
+                    this.oHead.className = cssCs;
+                    this.oHead.value = txt;
+                    this.oHead.index = idx;
+                },
+                TabBody: function(cssCs, txt){
+                    this.oBody = document.createElement('div');
+                    this.oBody.className = cssCs;
+                    this.oBody.innerHTML = txt;
+                }
+            }
+            //定义私有函数
+            var fn = {
+                init: function(){
+                    oTab = document.getElementById(elemId);
+                    oTab.className = 'tab';
+                    aHead = [];
+                    aBody = [];
+                },
+                switch: function(obj){
+                    for (var i = 0; i < aHead.length; i++) {
+                        aHead[i].className = 'tab_head';
+                        aBody[i].className = 'tab_body';
+                    }
+                    obj.className = 'tab_head tab_head_active';
+                    aBody[obj.index].className = 'tab_body tab_body_active';
+                }
+            }
+            //定义外部方法
+            this.appendItem = function(hTxt, bTxt){
+                var oTabHead = new inCs.TabHead('tab_head', hTxt, aHead.length);
+                var oTabBody = new inCs.TabBody('tab_body', bTxt);
+                oTabHead.oHead.onclick = function(){
+                    fn.switch(this);
+                }
+                aHead.push(oTabHead.oHead);
+                aBody.push(oTabBody.oBody);
+            }
+            this.show = function(){
+                for (var i = 0; i < aHead.length; i++) {
+                    oTab.appendChild(aHead[i]);
+                }
+                for (var i = 0; i < aBody.length; i++) {
+                    oTab.appendChild(aBody[i]);
+                }
+                aHead[0].click();
+            }
+            //初始化
+            fn.init();
+        }
+
+        window.onload = function(){
+            var tab = new Tab('tab');
+            tab.appendItem('1', '第一个DIV');
+            tab.appendItem('2', '第二个DIV');
+            tab.appendItem('3', '第三个DIV');
+            tab.show();
+        }
+    </script>
+</body>
+</html>

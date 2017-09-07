@@ -1,0 +1,27 @@
+.tab
+{
+	width: 800px;
+	margin: 100px auto;
+}
+.tab .tab_head
+{
+	padding: 2px 20px;
+	display: inline-block;
+	margin: 0 5px 5px 0;
+}
+.tab .tab_head_active
+{
+	background: red;
+}
+.tab .tab_body
+{
+	display: none;
+	padding: 50px 0;
+	font-size: 52px;
+	text-align: center;
+	border: 1px solid #000;
+}
+.tab .tab_body_active
+{
+	display: block;
+}

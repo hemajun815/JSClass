@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>html0</title>
+	<link rel="stylesheet" type="text/css" href="tab.css">
+</head>
+<body>
+	<div id="tab" class="tab">
+		<input type="button" class="tab_head tab_head_active" value="姓名">
+		<input type="button" class="tab_head" value="邮箱">
+		<input type="button" class="tab_head" value="性别">
+		<div class="tab_body tab_body_active">何马均</div>
+		<div class="tab_body">hemajun815@163.com</div>
+		<div class="tab_body">男</div>
+	</div>
+	<script type="text/javascript">
+		//定义全局变量
+		var oTab = null;
+		var aHead = null;
+		var aBody = null;
+
+		//初始化全局变量
+		window.onload = function(){
+        	oTab = document.getElementById('tab');
+        	aHead = oTab.getElementsByTagName('input');
+        	aBody = oTab.getElementsByTagName('div');
+        	bindEvent();
+    	};
+
+    	//绑定点击事件
+    	function bindEvent(){
+    		for (var i = 0; i < aHead.length; i++) {
+    			aHead[i].index = i;
+    			aHead[i].onclick = switchTab;
+    		}
+    	}
+
+    	//点击切换
+    	function switchTab(){
+    		for (var i = 0; i < aHead.length; i++) {
+    			aHead[i].className = 'tab_head';
+    			aBody[i].className = 'tab_body';
+    		}
+    		this.className = 'tab_head tab_head_active';
+    		aBody[this.index].className = 'tab_body tab_body_active';
+    	}
+	</script>
+</body>
+</html>

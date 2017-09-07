@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>html2</title>
+    <link rel="stylesheet" type="text/css" href="tab.css">
+</head>
+<body>
+    <div id="tab"></div>
+    <script type="text/javascript">
+
+        var Tab = function(elemId){
+            this.oTab = document.getElementById(elemId);
+            this.oTab.className = 'tab';
+            this.aHead = [];
+            this.aBody = [];
+        }
+
+        Tab.prototype.appendItem = function(hTxt, bTxt){
+            var oHead = document.createElement('input');
+            oHead.setAttribute('type', 'button');
+            oHead.className = 'tab_head';
+            oHead.value = hTxt;
+            oHead.index = this.aHead.length;
+            this.aHead.push(oHead);
+            var oBody = document.createElement('div');
+            oBody.className = 'tab_body';
+            oBody.innerHTML = bTxt;
+            this.aBody.push(oBody);
+            var oThis = this;
+            oHead.onclick = function(){
+                for (var i = 0; i < oThis.aHead.length; i++) {
+                    oThis.aHead[i].className = 'tab_head';
+                    oThis.aBody[i].className = 'tab_body';
+                }
+                this.className = 'tab_head tab_head_active';
+                oThis.aBody[this.index].className = 'tab_body tab_body_active';
+            }
+        }
+
+        Tab.prototype.show = function(){
+            for (var i = 0; i < this.aHead.length; i++) {
+                this.oTab.appendChild(this.aHead[i]);
+            }
+            for (var i = 0; i < this.aBody.length; i++) {
+                this.oTab.appendChild(this.aBody[i]);
+            }
+            this.aHead[0].click();
+        }
+
+        window.onload = function(){
+            var tab = new Tab('tab');
+            tab.appendItem('1', '第一个DIV');
+            tab.appendItem('2', '第二个DIV');
+            tab.appendItem('3', '第三个DIV');
+            tab.show();
+        }
+    </script>
+</body>
+</html>

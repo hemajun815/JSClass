@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>html1</title>
+    <link rel="stylesheet" type="text/css" href="tab.css">
+</head>
+<body>
+    <div id="tab" class="tab">
+        <input type="button" class="tab_head tab_head_active" value="1">
+        <input type="button" class="tab_head" value="2">
+        <input type="button" class="tab_head" value="3">
+        <div class="tab_body tab_body_active">1</div>
+        <div class="tab_body">2</div>
+        <div class="tab_body">3</div>
+    </div>
+    <script type="text/javascript">
+
+        var Tab = function(){
+            this.oTab = document.getElementById('tab');
+            this.aHead = this.oTab.getElementsByTagName('input');
+            this.aBody = this.oTab.getElementsByTagName('div');
+        }
+
+        Tab.prototype.show = function(){
+            var oThis = this;
+            for (var i = 0; i < oThis.aHead.length; i++) {
+                oThis.aHead[i].index = i;
+                oThis.aHead[i].onclick = function(){
+                    (function(obj){
+                        for (var i = 0; i < oThis.aHead.length; i++) {
+                            oThis.aHead[i].className = 'tab_head';
+                            oThis.aBody[i].className = 'tab_body';
+                        }
+                        obj.className = 'tab_head tab_head_active';
+                        oThis.aBody[obj.index].className = 'tab_body tab_body_active';
+                    })(this);
+                }
+            }
+        };
+
+        window.onload = function(){
+            var tab = new Tab();
+            tab.show();
+        }
+    </script>
+</body>
+</html>
