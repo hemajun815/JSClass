@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>html0</title>
+	<link rel="stylesheet" type="text/css" href="drag_verify.css">
+</head>
+<body>
+	<div style="width:500px; margin:0 auto;">
+		<div id="div1"></div>
+	</div>
+	<script type="text/javascript">
+		var DragVerify = function (elemId, successFn) {
+			var moving = null;
+			var verifing = null;
+			var oBox = null;
+			var oTarget = null;
+			var oSlider = null;
+			var oLine = null;
+			var fn = {
+				random: function(min, max) {
+			        var choice = max - min + 1;
+			        return Math.floor(Math.random() * choice + min);
+			    },
+			    init: function () {
+			    	moving = false;
+			    	verifing = false;
+			    	oBox = document.getElementById(elemId);
+			    	oBox.className = 'drag-verify-box';
+			    	var oWrap = document.createElement('div');
+			    	oWrap.className = 'drag-verify-wrap';
+			    	oBox.appendChild(oWrap);
+			    	oLine = document.createElement('div');
+			    	oLine.className = 'drag-verify-line';
+			    	oWrap.appendChild(oLine);
+			    	oTarget = document.createElement('div');
+			    	oTarget.className = 'drag-verify-target';
+			    	oWrap.appendChild(oTarget);
+			    	oSlider = document.createElement('div');
+			    	oSlider.className = 'drag-verify-slider';
+			    	oSlider.innerHTML = '拖动验证';
+			    	oBox.appendChild(oSlider);
+			    },
+			    bindEvent: function () {
+			    	oSlider.onmousedown = function () {
+			    		if (verifing) return false;
+			    		moving = true;
+			    	}
+			    	oSlider.onmouseup = function () {
+			            if (verifing) return false;
+			            moving = false;
+			            fn.verify();
+			    	}
+			    	oBox.onmousemove = function (e) {
+			            if (verifing) return false;
+			            if (moving) {
+			                var cursorToBoxX = e.pageX - oBox.offsetLeft;
+			                var harfOfSliderW = oSlider.offsetWidth / 2;
+			                var left = cursorToBoxX - harfOfSliderW;
+			                var MaxLeft = oLine.offsetWidth - oSlider.offsetWidth;
+			                var MinLeft = 0;
+			                if (left < 0) left = MinLeft;
+			                if (left > MaxLeft) left = MaxLeft;
+			                oSlider.style.left = left + 'px';
+			            }
+			    	}
+			    	oBox.onmouseenter = function () {
+			            if (verifing) return false;
+			            fn.refresh();
+			    	}
+			    	oBox.onmouseleave = function () {
+			            if (verifing) return false;
+			            moving = false;
+			            fn.verify();
+			    	}
+			    },
+			    verify: function () {
+			        var sliderLeft = oSlider.offsetLeft;
+			        var targetLeft = oTarget.offsetLeft;
+			        var sliderWidth = oSlider.offsetWidth;
+			        var targetWidth = oTarget.offsetWidth;
+			        if (sliderLeft >= targetLeft && sliderLeft + sliderWidth <= targetLeft + targetWidth) {
+			            verifing = true;
+			            if(successFn) successFn();
+			        }
+		            verifing = false;
+		            fn.refresh();
+			    },
+			    refresh: function () {
+			    	oSlider.style.left = '0px';
+			    	oTarget.style.width = oSlider.offsetWidth + 40 + 'px';
+			    	oTarget.style.left = fn.random(oSlider.offsetWidth, oLine.offsetWidth - oTarget.offsetWidth) + 'px';
+			    }
+			}
+			fn.init();
+			fn.bindEvent();
+			fn.refresh();
+		}
+		window.onload = function () {
+			var dragVerify = new DragVerify('div1', function () {
+				alert('验证成功！');
+			});
+		}
+	</script>
+</body>
+</html>
